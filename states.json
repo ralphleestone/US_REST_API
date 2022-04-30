@@ -1,4 +1,4 @@
-        [
+[
     {
       "state": "Alabama",
       "slug": "alabama",
@@ -20,7 +20,7 @@
       "twitter_url": "https://twitter.com/alabamagov",
       "facebook_url": "https://www.facebook.com/alabamagov"
     },
-    {
+    {                                                                                                                                  
       "state": "Alaska",
       "slug": "alaska",
       "code": "AK",
