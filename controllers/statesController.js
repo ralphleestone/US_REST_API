@@ -1,5 +1,11 @@
 const States = require('../model/States');
 
+// controller state
+const data = {
+    states: require('../model/states.json'),
+    setStates: function(data){this.states = data}
+}
+
 const getAllStates = async (req, res) => {
     const states = await States.find();
     if (!states) return res.status(204).json({ 'message': 'No states found.'});
