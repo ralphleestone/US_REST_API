@@ -14,15 +14,29 @@ connectDB();
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
+// built-in middleware for json 
+app.use(express.json());
+
 // routes
 app.use('/', require('./routes/root'));
-app.use('/', require('./routes/states'));
+//app.use('/', require('./routes/states'));
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
 
 // built-in middleware for json 
 app.use(express.json());
+
+app.all('*', (req, res) => {
+    res.status(404);
+    if (req.accepts('html')) {
+        res.sendFile(path.join(__dirname, 'views', '404.html'));
+    } else if (req.accepts('json')) {
+        res.json({ "error": "404 Not Found" });
+    } else {
+        res.type('txt').send("404 Not Found");
+    }
+});
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
