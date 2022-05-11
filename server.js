@@ -33,9 +33,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //middleware for cookies
-//app.use(cookieParser());
+app.use(cookieParser());
 
-//serve static files
+// serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes
