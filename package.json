@@ -1,17 +1,4 @@
 {
-  "name": "15tut",
-  "version": "1.0.0",
-  "description": "US_REST_API",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
-  },
-  "author": "Ralph Stone",
-  "license": "ISC",
-  "engines": {
-    "node": "14.x"
-  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
@@ -24,6 +11,24 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
-  }
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server"
+  },
+  "name": "us_rest_api",
+  "description": "[<img src=\"https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg\" width=\"163px\" />](https:glitch.com/edit/#!/import/github/ralphleestone/US_REST_API)",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ralphleestone/US_REST_API.git"
+  },
+  "author": "Ralph Stone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ralphleestone/US_REST_API/issues"
+  },
+  "homepage": "https://github.com/ralphleestone/US_REST_API#readme"
 }
