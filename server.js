@@ -46,6 +46,8 @@ app.use('/', require('./routes/root'));
 //app.use('/refresh', require('./routes/refresh'));
 //app.use('/logout', require('./routes/logout'));
 
+
+
 //app.use(verifyJWT);
 //app.use('/employees', require('./routes/api/employees'));
 
@@ -66,3 +68,14 @@ mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
+
+/*
+let statesJson;
+
+getStatesData().then( (data) => statesJson= data);
+// controller state
+const data = {
+    states: require('../model/states.json'),
+    setStates: function(data){this.states = data}
+}
+*/

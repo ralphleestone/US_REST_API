@@ -30,6 +30,13 @@ const createStateInfo = async (req, res) => {
     }
 }
 
+
+const verifyState = async (req, res) => {
+    const states = await States.find();
+    if (!states) return res.status(204).json({ 'message': 'No states found.'});
+    res.json(states);
+}
+
 /*
 const getOneState  = async (req, res) => {
     console.log("Here");
@@ -89,6 +96,7 @@ const getCapital = (req, res) => {
 
 module.exports = {
     getAllStates,
+    verifyState,
     //getSingleStates,
     //getCapital,
     createStateInfo,
