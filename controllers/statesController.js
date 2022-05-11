@@ -6,6 +6,10 @@ const data = {
     setStates: function(data){this.states = data}
 }
 
+function returnStates(data){
+    return this.states;
+}
+
 const getAllStates = async (req, res) => {
     const states = await States.find();
     if (!states) return res.status(204).json({ 'message': 'No states found.'});
