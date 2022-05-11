@@ -4,8 +4,9 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
+//const verifyState = require('./middleware/verifyState');
 const mongoose = require('mongoose');
-const connectDB = require('./config/dbConn');
+const connectDB = require('./config/dbConn')
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDB
@@ -19,13 +20,11 @@ app.use(express.json());
 
 // routes
 app.use('/', require('./routes/root'));
+//app.use('/states', require('./routes/states'));
 //app.use('/', require('./routes/states'));
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
-
-// built-in middleware for json 
-app.use(express.json());
 
 app.all('*', (req, res) => {
     res.status(404);

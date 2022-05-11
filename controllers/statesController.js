@@ -79,11 +79,11 @@ const deleteStateFunfact = (req, res) => {
 
 /*
 const getCapital = (req, res) => {
-    const employee = data.employees.find(emp => emp.id === parseInt(req.params.id));
-    if (!employee) {
-        return res.status(400).json({ "message": `Employee ID ${req.params.id} not found` });
+    const capital = data.capital.find(cap => cap.id === parseInt(req.params.id));
+    if (!capital) {
+        return res.status(400).json({ "message": `Capital ID ${req.params.id} not found` });
     }
-    res.json(employee);
+    res.json(capital);
 }
 */
 
