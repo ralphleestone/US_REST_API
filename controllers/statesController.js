@@ -7,7 +7,7 @@ const data = {
 }
 
 const getAllStates = async (req, res) => {
-    const states = await States.find();
+    const states = await data.find();
     if (!states) return res.status(204).json({ 'message': 'No states found.'});
     res.json(states);
 }
