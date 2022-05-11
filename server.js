@@ -14,6 +14,10 @@ connectDB();
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
+// routes
+app.use('/', require('./routes/root'));
+app.use('/', require('./routes/states'));
+
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
 

@@ -31,6 +31,26 @@ const createStateInfo = async (req, res) => {
 }
 
 /*
+const getOneState  = async (req, res) => {
+    console.log("Here");
+    if (!req?.body?.state || !req.body?.funfact) {
+        console.log("reached here");
+        return res.status(400).json({ message: "stateCode and funfact required." });
+    }
+
+    try{
+        const result = await StateDB.create({
+            stateCode: req.body.state,
+            funfact: req.body.funfact,
+        });
+        res.status(201).json(result);
+    } catch(err){
+        console.error(err);
+    }
+}
+*/
+
+/*
 const updateStatInfo = (req, res) => {
     const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
     if (!employee) {

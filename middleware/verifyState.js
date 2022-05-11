@@ -5,3 +5,5 @@ const verifyState = () => {
       next()
     }
   }
+
+  module.exports = verifyState
