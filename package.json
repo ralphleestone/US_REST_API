@@ -1,4 +1,17 @@
 {
+  "name": "15tut",
+  "version": "1.0.0",
+  "description": "US_REST_API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "author": "Ralph Stone",
+  "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
@@ -9,5 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.3",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
