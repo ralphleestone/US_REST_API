@@ -6,8 +6,8 @@ const data = {
     setStates: function(data){this.states = data}
 }
 
-function returnStates(data){
-    return this.states;
+function returnStates(){
+    return data = data.find();
 }
 
 const getAllStates = async (req, res) => {

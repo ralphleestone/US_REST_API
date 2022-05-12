@@ -12,6 +12,8 @@ router.route("/states/:state/funfact")
 router.route('/:state')
   .get(verifyState(), statesController.getAllStates)
 */
+returnStates();
+
 router.route("/states")
 .post(statesController.getAllStates);
 //.patch(statesController.updateStateInfo);
