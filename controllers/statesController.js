@@ -37,7 +37,7 @@ const getAllStates = async(req, res) => {
 };
 
 //   function for getting all info from single State
-const getSingleState = async(req, res) => {
+const getState = async(req, res) => {
     console.log("Reached here");
     let jsonStates = data.states;
     let statesFromDB = await StatesDB.find({});
@@ -54,7 +54,7 @@ const getSingleState = async(req, res) => {
 };
 
 // function for getting a random fact from a single State
-const getSingleFunFact = async(req, res) => {
+const getFunFact = async(req, res) => {
     console.log("Here from get single fun fact");
     let jsonStates = data.states;
     let statesFromDB = await StatesDB.find({});
@@ -80,7 +80,7 @@ const getSingleFunFact = async(req, res) => {
 };
 
 // function to get state and capital returned
-const getStateCapital = async(req, res) => {
+const getCapital = async(req, res) => {
     console.log("Here from getStateCapital");
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
@@ -92,7 +92,7 @@ const getStateCapital = async(req, res) => {
 };
 
 // start of get state and Nickname returned
-const getStateNickname = async(req, res) => {
+const getNickname = async(req, res) => {
     console.log("here from the getStateNickname Function");
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
@@ -105,7 +105,7 @@ const getStateNickname = async(req, res) => {
 };
 
 // Start of get state and population
-const getStatePopulation = async(req, res) => {
+const getPopulation = async(req, res) => {
     console.log("Here from getStatePopulation Function");
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
@@ -121,8 +121,8 @@ const getStatePopulation = async(req, res) => {
 };
 
 // Start of get state and admission date function
-const getStateAdmissionDate = async(req, res) => {
-    console.log("here from getStateAdmissionDate function");
+const getAdmissionDate = async(req, res) => {
+    console.log("here from getAdmissionDate function");
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
     );
@@ -134,7 +134,7 @@ const getStateAdmissionDate = async(req, res) => {
 };
 
 //  function for creating a state code and state fun fact
-const createStateInfo = async(req, res) => {
+const createInfo = async(req, res) => {
     console.log("Here from create state info");
     if (!req.body.funfacts) {
         return res.status(400).json({ message: "State fun facts value required" });
@@ -170,7 +170,7 @@ const createStateInfo = async(req, res) => {
 };
 
 // function for updating a state in mongo
-const updateStateInfo = async(req, res) => {
+const updateInfo = async(req, res) => {
     let jsonStates = data.states;
     console.log("Here from update State Info function");
     if (!req.body.index) {
@@ -212,7 +212,7 @@ const updateStateInfo = async(req, res) => {
 };
 
 // function for deleting a state fun fact from the array of fun facts
-const deleteStateFunFact = async(req, res) => {
+const deleteFunFact = async(req, res) => {
     let jsonStates = data.states;
     let index = req ? .body ? .index + 1;
     if (!index) {
