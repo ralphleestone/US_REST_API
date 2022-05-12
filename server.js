@@ -11,13 +11,13 @@ const PORT = process.env.PORT || 3500;
 // Connect to MongoDB
 connectDB();
 
-// built-in middleware for json 
+// Built-In json middleware
 app.use(express.json());
 
-// cross origin resource sharing third-party middleware
+// Cross origin resource sharing middleware
 app.use(cors());
 
-// built in middleware
+// Built in middleware
 app.use(express.urlencoded({
     extended: false
 }));
