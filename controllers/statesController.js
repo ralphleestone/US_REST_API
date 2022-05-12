@@ -8,7 +8,7 @@ const data = {
 };
 
 // Get All States
-const getAllStates = async(req, res) => {
+const getAllStates = async (req, res) => {
     let statesList;
     let jsonStates = data.states;
     const {
@@ -40,7 +40,7 @@ const getAllStates = async(req, res) => {
 };
 
 //   Get State
-const getState = async(req, res) => {
+const getState = async (req, res) => {
     let jsonStates = data.states;
     let statesFromDB = await StatesDB.find({});
     const state = jsonStates.find((state) => state.code === req.params.state.toUpperCase());
@@ -58,7 +58,7 @@ const getState = async(req, res) => {
 };
 
 // Get Fun Fact
-const getFunFact = async(req, res) => {
+const getFunFact = async (req, res) => {
     let jsonStates = data.states;
     let statesFromDB = await StatesDB.find({});
     const state = jsonStates.find((state) => state.code === req.params.state.toUpperCase());
@@ -84,7 +84,7 @@ const getFunFact = async(req, res) => {
 };
 
 // Get Capital
-const getCapital = async(req, res) => {
+const getCapital = async (req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
     );
@@ -100,7 +100,7 @@ const getCapital = async(req, res) => {
 };
 
 // Get Nickname
-const getNickname = async(req, res) => {
+const getNickname = async (req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
     );
@@ -116,7 +116,7 @@ const getNickname = async(req, res) => {
 };
 
 // Get Population
-const getPopulation = async(req, res) => {
+const getPopulation = async (req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
     );
@@ -133,7 +133,7 @@ const getPopulation = async(req, res) => {
 };
 
 // Get Admission
-const getAdmission = async(req, res) => {
+const getAdmission = async (req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
     );
@@ -150,7 +150,7 @@ const getAdmission = async(req, res) => {
 };
 
 //  Create State Code
-const createInfo = async(req, res) => {
+const createInfo = async (req, res) => {
     if (!req.body.funfacts) {
         return res.status(400).json({
             message: "State fun facts value required"
@@ -186,7 +186,7 @@ const createInfo = async(req, res) => {
 };
 
 // Update State
-const updateInfo = async(req, res) => {
+const updateInfo = async (req, res) => {
     let jsonStates = data.states;
     if (!req.body.index) {
         return res.status(400).json({
@@ -230,7 +230,7 @@ const updateInfo = async(req, res) => {
 };
 
 // Delete State FunFact
-const deleteFunFact = async(req, res) => {
+const deleteFunFact = async (req, res) => {
     let jsonStates = data.states;
     let index = req?.body?.index + 1;
     if (!index) {

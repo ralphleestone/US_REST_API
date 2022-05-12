@@ -1,5 +1,9 @@
-const { format } = require('date-fns');
-const { v4: uuid } = require('uuid');
+const {
+    format
+} = require('date-fns');
+const {
+    v4: uuid
+} = require('uuid');
 
 const fs = require('fs');
 const fsPromises = require('fs').promises;
@@ -26,4 +30,7 @@ const logger = (req, res, next) => {
     next();
 }
 
-module.exports = { logger, logEvents };
+module.exports = {
+    logger,
+    logEvents
+};

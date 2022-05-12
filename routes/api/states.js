@@ -2,34 +2,34 @@ const express = require("express");
 const router = express.Router();
 const statesController = require('../../controllers/statesController');
 
-// get all states route
+// Get AllStates
 router.route("/")
     .get(statesController.getAllStates);
 
-// get single state
+// Get State
 router.route("/:state")
     .get(statesController.getState);
 
 router.route("/:state/funfact")
     .get(statesController.getFunFact);
 
-// get state  capital info
+// Get Capital
 router.route("/:state/capital")
     .get(statesController.getCapital)
 
-// get state and state nickname
+// Get Nickname
 router.route("/:state/nickname")
     .get(statesController.getNickname)
 
-// get state and population
+// Get population
 router.route("/:state/population")
     .get(statesController.getPopulation)
 
-// get state and admission date
+// Get Admission
 router.route("/:state/admission")
     .get(statesController.getAdmission)
 
-// create state code and facts route
+// Create stateCode and funfact
 router.route("/:state/funfact")
     .post(statesController.createInfo)
     .patch(statesController.updateInfo)

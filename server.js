@@ -18,7 +18,9 @@ app.use(express.json());
 app.use(cors());
 
 // built in middleware
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+    extended: false
+}));
 
 // Serve Static Files
 app.use('/', express.static(path.join(__dirname, '/public')));
@@ -32,7 +34,9 @@ app.all("*", (req, res) => {
     if (req.accepts("html")) {
         res.sendFile(path.join(__dirname, "views", "404.html"));
     } else if (req.accepts("json")) {
-        res.json({ error: "404 not Found" });
+        res.json({
+            error: "404 not Found"
+        });
     } else {
         res.type("txt").send("404 Not Found");
     }
