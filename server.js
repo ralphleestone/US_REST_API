@@ -20,7 +20,7 @@ app.use(cors());
 // built in middleware
 app.use(express.urlencoded({ extended: false }));
 
-//serve static files
+// Serve Static Files
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // Routes
