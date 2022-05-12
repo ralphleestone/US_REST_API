@@ -8,30 +8,30 @@ router.route("/")
 
 // get single state
 router.route("/:state")
-    .get(statesController.getSingleState);
+    .get(statesController.getState);
 
 router.route("/:state/funfact")
-    .get(statesController.getSingleFunFact);
+    .get(statesController.getFunFact);
 
 // get state  capital info
 router.route("/:state/capital")
-    .get(statesController.getStateCapital)
+    .get(statesController.getCapital)
 
 // get state and state nickname
 router.route("/:state/nickname")
-    .get(statesController.getStateNickname)
+    .get(statesController.getNickname)
 
 // get state and population
 router.route("/:state/population")
-    .get(statesController.getStatePopulation)
+    .get(statesController.getPopulation)
 
 // get state and admission date
 router.route("/:state/admission")
-    .get(statesController.getStateAdmissionDate)
+    .get(statesController.getAdmissionDate)
 
 // create state code and facts route
 router.route("/:state/funfact")
-    .post(statesController.createStateInfo)
-    .patch(statesController.updateStateInfo)
-    .delete(statesController.deleteStateFunFact)
+    .post(statesController.createInfo)
+    .patch(statesController.updateInfo)
+    .delete(statesController.deleteFunFact)
 module.exports = router;
