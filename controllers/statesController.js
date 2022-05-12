@@ -244,7 +244,6 @@ const updateInfo = async(req, res) => {
                 message: `No Fun Fact found at that index for ${stateWithNoFunFacts[0].state}`,
             });
     }
-    // update the quote at the correct index
 
     state.funfacts[index] = req.body.funfact;
     const result = await state.save();
