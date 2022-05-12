@@ -1,10 +1,13 @@
-const States = require('../model/States');
-
-// controller state
+// controller for states info
+const e = require("express");
+const { findOneAndDelete } = require("../model/States");
+const StatesDB = require("../model/States");
 const data = {
-    states: require('../model/states.json'),
-    setStates: function(data) { this.states = data }
-}
+    states: require("../model/states.json"),
+    setStates: function(data) {
+        this.states = data;
+    },
+};
 
 // function for getting all states
 const getAllStates = async(req, res) => {
