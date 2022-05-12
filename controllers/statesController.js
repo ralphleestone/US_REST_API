@@ -3,107 +3,261 @@ const States = require('../model/States');
 // controller state
 const data = {
     states: require('../model/states.json'),
-    setStates: function(data){this.states = data}
+    setStates: function(data) { this.states = data }
 }
 
-function returnStates(){
-    return data = data.find();
-}
+// function for getting all states
+const getAllStates = async(req, res) => {
+    let statesList;
+    let jsonStates = data.states;
+    const { contig } = req.query;
+    console.log(contig);
+    if (contig === "true") {
+        function filterOutAkandHI(jsonStates) {
+            if (jsonStates.code == "AK" || jsonStates.code == "HI") {
+                return false;
+            }
+            return true;
+        }
+        statesList = jsonStates.filter(filterOutAkandHI);
+    } else if (contig === "false") {
+        statesList = jsonStates.filter((st) => st.code === "AK" || st.code === "HI");
+    } else {
+        statesList = data.states;
+    }
+    let statesFromDB = await StatesDB.find({});
+    statesList.forEach((state) => {
+        const statesMatch = statesFromDB.find((st) => st.stateCode === state.code);
+        if (statesMatch) {
+            console.log(statesMatch.stateCode + " Matches " + state.code);
+            state.funfacts = [...statesMatch.funfacts];
+        }
+    });
+    res.json(statesList);
+};
 
-const getAllStates = async (req, res) => {
-    const states = await States.find();
-    if (!states) return res.status(204).json({ 'message': 'No states found.'});
-    res.json(states);
-}
+//   function for getting all info from single State
+const getSingleState = async(req, res) => {
+    console.log("Reached here");
+    let jsonStates = data.states;
+    let statesFromDB = await StatesDB.find({});
+    const state = jsonStates.find((state) => state.code === req.params.state.toUpperCase());
+    if (!state) {
+        return res.status(400).json({ message: `Invalid state abbreviation parameter` });
+    }
+    const stateMatch = statesFromDB.find((st) => st.stateCode === state.code);
+    if (stateMatch) {
+        console.log(stateMatch.stateCode + " Matches " + state.code);
+        state.funfacts = [...stateMatch.funfacts];
+    }
+    res.json(state);
+};
 
-const createStateInfo = async (req, res) => {
-    console.log("Here");
-    if (!req?.body?.state || !req.body?.funfact) {
-        console.log("reached here");
-        return res.status(400).json({ message: "stateCode and funfact required." });
+// function for getting a random fact from a single State
+const getSingleFunFact = async(req, res) => {
+    console.log("Here from get single fun fact");
+    let jsonStates = data.states;
+    let statesFromDB = await StatesDB.find({});
+    const state = jsonStates.find((state) => state.code === req.params.state.toUpperCase());
+
+    if (!state) {
+        return res.status(400).json({ message: `Invalid state abbreviation parameter` });
     }
 
-    try{
-        const result = await StateDB.create({
-            stateCode: req.body.state,
-            funfact: req.body.funfact,
+    const stateMatch = statesFromDB.find((st) => st.stateCode === state.code);
+    if (stateMatch) {
+        console.log(stateMatch.stateCode + " Matches " + state.code);
+        state.funfacts = [...stateMatch.funfacts];
+    } else if (!state.funfacts) {
+        return res.json({ message: `No Fun Facts found for ${state.state}` });
+    }
+
+    return res.json({
+        funfact: `${
+        state.funfacts[Math.floor(Math.random() * state.funfacts.length - 1) + 1]
+      }`,
+    });
+};
+
+// function to get state and capital returned
+const getStateCapital = async(req, res) => {
+    console.log("Here from getStateCapital");
+    const state = data.states.find(
+        (state) => state.code === req.params.state.toUpperCase()
+    );
+    if (!state) {
+        return res.status(400).json({ message: `Invalid state abbreviation parameter` });
+    }
+    res.json({ state: `${state.state}`, capital: `${state.capital_city}` });
+};
+
+// start of get state and Nickname returned
+const getStateNickname = async(req, res) => {
+    console.log("here from the getStateNickname Function");
+    const state = data.states.find(
+        (state) => state.code === req.params.state.toUpperCase()
+    );
+
+    if (!state) {
+        return res.status(400).json({ message: `Invalid state abbreviation parameter` });
+    }
+    res.json({ state: `${state.state}`, nickname: `${state.nickname}` });
+};
+
+// Start of get state and population
+const getStatePopulation = async(req, res) => {
+    console.log("Here from getStatePopulation Function");
+    const state = data.states.find(
+        (state) => state.code === req.params.state.toUpperCase()
+    );
+    if (!state) {
+        return res.status(400).json({ message: `Invalid state abbreviation parameter` });
+    } else {
+        res.json({
+            state: `${state.state}`,
+            population: `${state.population.toLocaleString()}`,
         });
+    }
+};
+
+// Start of get state and admission date function
+const getStateAdmissionDate = async(req, res) => {
+    console.log("here from getStateAdmissionDate function");
+    const state = data.states.find(
+        (state) => state.code === req.params.state.toUpperCase()
+    );
+    if (!state) {
+        return res.status(400).json({ message: `Invalid state abbreviation parameter` });
+    } else {
+        res.json({ state: `${state.state}`, admitted: `${state.admission_date}` });
+    }
+};
+
+//  function for creating a state code and state fun fact
+const createStateInfo = async(req, res) => {
+    console.log("Here from create state info");
+    if (!req.body.funfacts) {
+        return res.status(400).json({ message: "State fun facts value required" });
+    }
+
+    if (!Array.isArray(req.body.funfacts)) {
+        return res.json({ message: "State fun facts value must be an array" });
+    }
+
+    const foundState = await StatesDB.findOne({
+        stateCode: req.params.state.toUpperCase(),
+    });
+    console.log(foundState);
+    if (!foundState) {
+        try {
+            const result = await StatesDB.create({
+                stateCode: req.params.state,
+                funfacts: req.body.funfacts,
+            });
+            res.status(201).json(result);
+        } catch (err) {
+            console.error(err);
+        }
+    } else if (foundState) {
+        console.log("Reached here two");
+        console.log(foundState.funfacts.length);
+        for (let num = 0; num < data.length; num++) {
+            foundState.funfacts.push(data[num]);
+        }
+        const result = await foundState.save();
         res.status(201).json(result);
-    } catch(err){
-        console.error(err);
     }
-}
+};
 
-
-const verifyState = async (req, res) => {
-    const states = await States.find();
-    if (!states) return res.status(204).json({ 'message': 'No states found.'});
-    res.json(states);
-}
-
-/*
-const getOneState  = async (req, res) => {
-    console.log("Here");
-    if (!req?.body?.state || !req.body?.funfact) {
-        console.log("reached here");
-        return res.status(400).json({ message: "stateCode and funfact required." });
+// function for updating a state in mongo
+const updateStateInfo = async(req, res) => {
+    let jsonStates = data.states;
+    console.log("Here from update State Info function");
+    if (!req.body.index) {
+        return res.status(400).json({ message: `State fun fact index value required` });
+    }
+    if (!req.body.funfact) {
+        return res.status(400).json({ message: `State fun fact value required` });
+    }
+    const state = await StatesDB.findOne({
+        stateCode: req.params.state.toUpperCase(),
+    }).exec();
+    let index = req.body.index + 1;
+    if (!state) {
+        let stateWithNoFunFacts = jsonStates.filter(
+            (st) => st.code === req.params.state.toUpperCase()
+        );
+        console.log(stateWithNoFunFacts[0].state);
+        return res
+            .status(400)
+            .json({ message: `No Fun Facts found for ${stateWithNoFunFacts[0].state}` });
     }
 
-    try{
-        const result = await StateDB.create({
-            stateCode: req.body.state,
-            funfact: req.body.funfact,
-        });
-        res.status(201).json(result);
-    } catch(err){
-        console.error(err);
+    index = index - 1;
+    if (index < 0 || req.body.index > state.funfacts.length) {
+        let stateWithNoFunFacts = jsonStates.filter(
+            (st) => st.code === req.params.state.toUpperCase()
+        );
+        return res
+            .status(400)
+            .json({
+                message: `No Fun Fact found at that index for ${stateWithNoFunFacts[0].state}`,
+            });
     }
-}
-*/
+    // update the quote at the correct index
 
-/*
-const updateStatInfo = (req, res) => {
-    const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
-    if (!employee) {
-        return res.status(400).json({ "message": `Employee ID ${req.body.id} not found` });
-    }
-    if (req.body.firstname) employee.firstname = req.body.firstname;
-    if (req.body.lastname) employee.lastname = req.body.lastname;
-    const filteredArray = data.employees.filter(emp => emp.id !== parseInt(req.body.id));
-    const unsortedArray = [...filteredArray, employee];
-    data.setEmployees(unsortedArray.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-    res.json(data.employees);
-}
-*/
+    state.funfacts[index] = req.body.funfact;
+    const result = await state.save();
+    return res.json(result);
+};
 
-/*
-const deleteStateFunfact = (req, res) => {
-    const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
-    if (!employee) {
-        return res.status(400).json({ "message": `Employee ID ${req.body.id} not found` });
+// function for deleting a state fun fact from the array of fun facts
+const deleteStateFunFact = async(req, res) => {
+    let jsonStates = data.states;
+    let index = req ? .body ? .index + 1;
+    if (!index) {
+        return res.status(400).json({ message: `State fun fact index value required` });
     }
-    const filteredArray = data.employees.filter(emp => emp.id !== parseInt(req.body.id));
-    data.setEmployees([...filteredArray]);
-    res.json(data.employees);
-}
-*/
+    index = index - 1;
+    const foundState = await StatesDB.findOne({
+        stateCode: req.params.state.toUpperCase(),
+    }).exec();
+    if (!foundState || foundState == null) {
+        let stateWithNoFunFacts = jsonStates.filter(
+            (st) => st.code === req.params.state.toUpperCase()
+        );
+        console.log(stateWithNoFunFacts[0].state);
+        return res
+            .status(400)
+            .json({ message: `No Fun Facts found for ${stateWithNoFunFacts[0].state}` });
+    }
 
-/*
-const getCapital = (req, res) => {
-    const capital = data.capital.find(cap => cap.id === parseInt(req.params.id));
-    if (!capital) {
-        return res.status(400).json({ "message": `Capital ID ${req.params.id} not found` });
+    if (index < 0 || req.body.index > foundState.funfacts.length) {
+        let stateWithNoFunFacts = jsonStates.filter(
+            (st) => st.code === req.params.state.toUpperCase()
+        );
+        return res
+            .status(400)
+            .json({
+                message: `No Fun Fact found at that index for ${stateWithNoFunFacts[0].state}`,
+            });
     }
-    res.json(capital);
-}
-*/
+    console.log(foundState.funfacts[index]);
+    foundState.funfacts.splice(index, 1);
+    const result = await foundState.save();
+    console.log(result);
+    res.json(result);
+};
 
 module.exports = {
     getAllStates,
-    verifyState,
-    //getSingleStates,
-    //getCapital,
-    createStateInfo,
-    //updateStatInfo,
-    //deleteStateFunfact,
-}
+    getState,
+    getCapital,
+    getNickname,
+    getPopulation,
+    getAdmissionDate,
+    getFunFact,
+    createInfo,
+    updateInfo,
+    deleteFunFact,
+};
