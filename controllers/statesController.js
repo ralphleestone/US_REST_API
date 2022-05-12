@@ -1,7 +1,5 @@
-const e = require("express");
-const {
-    findOneAndDelete
-} = require("../model/States");
+const express = require("express");
+const { findOneAndDelete } = require("../model/States");
 const StatesDB = require("../model/States");
 const data = {
     states: require("../model/states.json"),
