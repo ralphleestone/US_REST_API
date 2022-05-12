@@ -1,4 +1,3 @@
-// controller for states info
 const e = require("express");
 const {
     findOneAndDelete
@@ -11,7 +10,7 @@ const data = {
     },
 };
 
-// function for getting all states
+// Get All States
 const getAllStates = async(req, res) => {
     let statesList;
     let jsonStates = data.states;
@@ -43,7 +42,7 @@ const getAllStates = async(req, res) => {
     res.json(statesList);
 };
 
-//   function for getting all info from single State
+//   Get State
 const getState = async(req, res) => {
     let jsonStates = data.states;
     let statesFromDB = await StatesDB.find({});
@@ -61,7 +60,7 @@ const getState = async(req, res) => {
     res.json(state);
 };
 
-// function for getting a random fact from a single State
+// Get Fun Fact
 const getFunFact = async(req, res) => {
     let jsonStates = data.states;
     let statesFromDB = await StatesDB.find({});
@@ -87,7 +86,7 @@ const getFunFact = async(req, res) => {
     });
 };
 
-// function to get state and capital returned
+// Get Capital
 const getCapital = async(req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
@@ -103,7 +102,7 @@ const getCapital = async(req, res) => {
     });
 };
 
-// start of get state and Nickname returned
+// Get Nickname
 const getNickname = async(req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
@@ -119,7 +118,7 @@ const getNickname = async(req, res) => {
     });
 };
 
-// Start of get state and population
+// Get Population
 const getPopulation = async(req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
@@ -136,8 +135,8 @@ const getPopulation = async(req, res) => {
     }
 };
 
-// Start of get state and admission date function
-const getAdmissionDate = async(req, res) => {
+// Get Admission
+const getAdmission = async(req, res) => {
     const state = data.states.find(
         (state) => state.code === req.params.state.toUpperCase()
     );
@@ -153,7 +152,7 @@ const getAdmissionDate = async(req, res) => {
     }
 };
 
-//  function for creating a state code and state fun fact
+//  Create State Code
 const createInfo = async(req, res) => {
     if (!req.body.funfacts) {
         return res.status(400).json({
@@ -165,7 +164,6 @@ const createInfo = async(req, res) => {
             message: "State fun facts value must be an array"
         });
     }
-
     const foundState = await StatesDB.findOne({
         stateCode: req.params.state.toUpperCase(),
     });
@@ -181,7 +179,6 @@ const createInfo = async(req, res) => {
             console.error(err);
         }
     } else if (foundState) {
-        console.log("Reached here two");
         console.log(foundState.funfacts.length);
         for (let num = 0; num < data.length; num++) {
             foundState.funfacts.push(data[num]);
@@ -191,7 +188,7 @@ const createInfo = async(req, res) => {
     }
 };
 
-// function for updating a state in mongo
+// Update State
 const updateInfo = async(req, res) => {
     let jsonStates = data.states;
     if (!req.body.index) {
@@ -235,7 +232,7 @@ const updateInfo = async(req, res) => {
     return res.json(result);
 };
 
-// function for deleting a state fun fact from the array of fun facts
+// Delete State FunFact
 const deleteFunFact = async(req, res) => {
     let jsonStates = data.states;
     let index = req?.body?.index + 1;
@@ -283,7 +280,7 @@ module.exports = {
     getCapital,
     getNickname,
     getPopulation,
-    getAdmissionDate,
+    getAdmission,
     getFunFact,
     createInfo,
     updateInfo,

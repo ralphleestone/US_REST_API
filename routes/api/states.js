@@ -27,7 +27,7 @@ router.route("/:state/population")
 
 // get state and admission date
 router.route("/:state/admission")
-    .get(statesController.getAdmissionDate)
+    .get(statesController.getAdmission)
 
 // create state code and facts route
 router.route("/:state/funfact")
