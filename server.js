@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
+const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const path = require("path");
-const cors = require('cors');
-const errorHandler = require('./middleware/errorHandler');
+const cors = require("cors");
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
@@ -11,14 +11,14 @@ const PORT = process.env.PORT || 3500;
 // Connect to MongoDB
 connectDB();
 
-// custom middleware logger
-app.use(logger);
-
-// Cross Origin Resource Sharing
-app.use(cors(corsOptions));
-
 // built-in middleware for json 
 app.use(express.json());
+
+// cross origin resource sharing third-party middleware
+app.use(cors());
+
+// built in middleware
+app.use(express.urlencoded({ extended: false }));
 
 //serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
